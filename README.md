@@ -30,19 +30,16 @@ To use Docky, you must have a package.json file at the root of your project. Thi
 {
   "name": "my-project",
   "version": "1.0.0",
-  "docker_repository": "my-repo"
+  "docky": {
+    "type": "Docker", // Or Azure, Aws
+    "url": "docker.obstinate.fr"
+  }
 }
 ```
-
-You can also include dependencies in your package.json file. Docky will use them to build your Docker image.
 
 ## Commands
 
 Docky supports the following commands:
-
-`docky config`
-
-This command creates a docky.toml file in the directory of your project. You can use it to customize the Docky configuration.
 
 `docky build`
 
