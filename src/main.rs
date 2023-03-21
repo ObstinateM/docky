@@ -1,7 +1,7 @@
 mod cli;
 use clap::Parser;
 use cli::{Cli, Commands};
-use docky::{build, Package};
+use docky::{build, publish, tag, Package};
 
 fn main() {
     let args = Cli::parse();
@@ -16,14 +16,22 @@ fn main() {
                 build(&Package {
                     name: package.name.clone(),
                     version,
-                    docker_repository: package.docker_repository.clone(),
+                    docky: package.docky.clone(),
                 });
             }
             println!("Successfully builded.");
         }
-        Commands::Config {} => todo!(),
+        Commands::Config {} => {
+            todo!("Should ask for information and add it to config if not exist? (may be remove)")
+        }
         Commands::Publish { update } => {
-            println!("{:?}", update);
+            if let Some(new_version) = update {
+                println!("{:?}", new_version);
+            }
+
+            build(&package);
+            tag(&package, &package.version, &"latest".to_string());
+            publish(&package, None);
         }
         Commands::Tag { version } => {
             println!("{}", version);
