@@ -1,34 +1,7 @@
-use clap::{Parser, Subcommand};
+mod cli;
+use clap::Parser;
+use cli::{Cli, Commands};
 use docky::{build, Package};
-
-#[derive(Debug, Parser)]
-#[command(name = "docky")]
-#[command(about = "A tool to be blazingly fast with docker", long_about = None)]
-struct Cli {
-    #[command(subcommand)]
-    command: Commands,
-}
-
-#[derive(Debug, Subcommand)]
-enum Commands {
-    /// Create the config file
-    Config {},
-
-    /// Build the image
-    Build {
-        #[arg(default_value = "None")]
-        version: String,
-    },
-
-    /// Build, tag (version & latest) and publish
-    Publish {},
-
-    /// Rename the image
-    Tag {
-        #[arg(default_value = "latest")]
-        version: String,
-    },
-}
 
 fn main() {
     let args = Cli::parse();
@@ -49,7 +22,9 @@ fn main() {
             println!("Successfully builded.");
         }
         Commands::Config {} => todo!(),
-        Commands::Publish {} => todo!(),
+        Commands::Publish { update } => {
+            println!("{:?}", update);
+        }
         Commands::Tag { version } => {
             println!("{}", version);
         }
